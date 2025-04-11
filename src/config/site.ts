@@ -2,6 +2,7 @@ export type SiteConfig = typeof siteConfig;
 import i18next from "../i18n";
 
 export const siteConfig = () => ({
+  needCookieConsent: true, // Set to false if you don't need cookie consent
   name: i18next.t("vite-heroui"),
   description: i18next.t(
     "make-beautiful-websites-regardless-of-your-design-experience",

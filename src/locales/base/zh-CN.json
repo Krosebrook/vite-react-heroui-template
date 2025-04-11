@@ -33,5 +33,6 @@
   "cookie-consent": "我们在网站上使用Cookie，通过记住您的偏好和重复访问来为您提供最相关的体验。\n通过单击",
   "cookie-policy": "饼干政策。",
   "accept-all": "接受全部",
-  "reject": "拒绝"
+  "reject": "拒绝",
+  "cookie-consent-title": "Cookies政策"
 }

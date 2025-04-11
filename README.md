@@ -79,6 +79,69 @@ The default configuration uses the `i18next-http-backend` plugin for language la
 
 By following the steps above, you can easily add new languages and manage internationalization for your application.
 
+## Cookie Consent
+
+This template includes a cookie consent management system to comply with privacy regulations like GDPR. The system displays a modal dialog asking users for consent to use cookies and stores their preference in the browser's localStorage.
+
+### Features
+
+- Modern modal-based UI with blur backdrop
+- Internationalized content for all supported languages
+- Stores user preferences in localStorage
+- Provides a context API for checking consent status throughout the application
+- Supports both accepting and rejecting cookies
+
+### Configuration
+
+The cookie consent feature can be enabled or disabled through the site configuration:
+
+1. **Enable/Disable Cookie Consent:**
+   - Open the `src/config/site.ts` file
+   - Set the `needCookieConsent` property to `true` or `false`:
+
+```typescript
+export const siteConfig = () => ({
+  needCookieConsent: true, // Set to false if you don't need cookie consent
+  // ...other configuration
+});
+```
+
+### Implementation Details
+
+- **Context Provider:** `src/contexts/cookie-consent-context.tsx` - Provides a React context to manage consent state
+- **UI Component:** `src/components/cookie-consent.tsx` - Renders the consent modal using HeroUI components
+- **Consent Status:** The consent status can be one of three values:
+  - `pending`: Initial state, user hasn't made a decision yet
+  - `accepted`: User has accepted cookies
+  - `rejected`: User has rejected cookies
+
+### Using Cookie Consent in Your Components
+
+You can access the cookie consent status in any component using the `useCookieConsent` hook:
+
+```tsx
+import { useCookieConsent } from "@/contexts/cookie-consent-context";
+
+const MyComponent = () => {
+  const { cookieConsent, acceptCookies, rejectCookies, resetCookieConsent } = useCookieConsent();
+  
+  // Load analytics only if cookies are accepted
+  useEffect(() => {
+    if (cookieConsent === "accepted") {
+      // Initialize analytics, tracking scripts, etc.
+    }
+  }, [cookieConsent]);
+  
+  // ...rest of your component
+};
+```
+
+### Customization
+
+- Modify the appearance of the consent modal in `src/components/cookie-consent.tsx`
+- Add custom tracking or cookie management logic in the `acceptCookies` and `rejectCookies` functions in `src/contexts/cookie-consent-context.tsx`
+- Update the cookie policy text in the language files (e.g., `src/locales/base/en-US.json`)
+
 ## Tailwind CSS 4
 
 This template uses Tailwind CSS 4, which is a utility-first CSS framework. You can customize the styles by modifying the `tailwind.config.js` file.  
