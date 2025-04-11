@@ -82,6 +82,8 @@ By following the steps above, you can easily add new languages and manage intern
 ## Cookie Consent
 
 This template includes a cookie consent management system to comply with privacy regulations like GDPR. The system displays a modal dialog asking users for consent to use cookies and stores their preference in the browser's localStorage.
+<img width="944" alt="Capture d’écran 2025-04-11 à 19 55 13" src="https://github.com/user-attachments/assets/8769525c-bef0-4705-9b2e-6664aa68a9e0" />
+
 
 ### Features
 
