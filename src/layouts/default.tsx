@@ -4,6 +4,7 @@ import { Link } from "@heroui/link";
 import { Trans, useTranslation } from "react-i18next";
 
 import { Navbar } from "@/components/navbar";
+import { CookieConsent } from "@/components/cookie-consent";
 
 export default function DefaultLayout({
   children,
@@ -31,6 +32,8 @@ export default function DefaultLayout({
           <p className="text-primary">HeroUI</p>
         </Link>
       </footer>
+      {/* <CookieConsent /> */}
+      <CookieConsent />
     </div>
   );
 }
