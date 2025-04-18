@@ -8,6 +8,11 @@ This is a template for creating applications using Vite 6 and HeroUI (v2).
 
 **If you appreciate my work, please consider giving it a star! 🤩**
 
+## With OAuth2 authentication ?
+
+If you are looking for a template with OAuth2 authentication, you can check out my other repository: [vite-react-heroui-auth0-template](https://github.com/sctg-development/vite-react-heroui-auth0-template)
+which is the same template with an OAuth2 authentication layer implemented via a free tier on [Auth0](https://auth0.com).
+
 ## Technologies Used
 
 - [Vite 6](https://vitejs.dev/guide/)
@@ -20,27 +25,264 @@ This is a template for creating applications using Vite 6 and HeroUI (v2).
 - [TypeScript](https://www.typescriptlang.org)
 - [Framer Motion](https://www.framer.com/motion)
 
+## Adding a New Page
+
+This section explains how to create a new page with the default layout and add it to the navigation menus.
+
+### 1. Create the Page Component
+
+First, create a new file in the `src/pages` directory. For example, let's create a "Contact" page:
+
+```tsx
+// filepath: src/pages/contact.tsx
+import { Trans, useTranslation } from "react-i18next";
+import { title } from "@/components/primitives";
+import DefaultLayout from "@/layouts/default";
+
+export default function ContactPage() {
+  const { t } = useTranslation();
+
+  return (
+    <DefaultLayout>
+      <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
+        <div className="inline-block max-w-lg text-center justify-center">
+          <h1 className={title()}>
+            <Trans t={t}>contact</Trans>
+          </h1>
+          <p className="mt-4 text-default-600">
+            This is the contact page content. You can add your contact form or information here.
+          </p>
+        </div>
+      </section>
+    </DefaultLayout>
+  );
+}
+```
+
+### 2. Add Translation Keys
+
+Add the new page's translation key to each language file in the `src/locales/base` directory:
+
+```json
+// Add to each language JSON file (en-US.json, fr-FR.json, etc.)
+{
+  // ... existing translations
+  "contact": "Contact" // For English - adjust for other languages
+}
+```
+
+### 3. Add the Route
+
+Update the `App.tsx` file to include a route for your new page:
+
+```tsx
+// filepath: src/App.tsx
+import ContactPage from "@/pages/contact";
+
+function App() {
+  return (
+    <CookieConsentProvider>
+      <CookieConsent />
+      <Routes>
+        <Route element={<IndexPage />} path="/" />
+        <Route element={<DocsPage />} path="/docs" />
+        <Route element={<PricingPage />} path="/pricing" />
+        <Route element={<BlogPage />} path="/blog" />
+        <Route element={<AboutPage />} path="/about" />
+        {/* Add the new route */}
+        <Route element={<ContactPage />} path="/contact" />
+      </Routes>
+    </CookieConsentProvider>
+  );
+}
+```
+
+### 4. Add to Navigation Menus
+
+Update the `src/config/site.ts` file to include your new page in both the desktop navigation and mobile menu:
+
+```typescript
+// filepath: src/config/site.ts
+export const siteConfig = () => ({
+  // ... existing config
+  navItems: [
+    {
+      label: i18next.t("home"),
+      href: "/",
+    },
+    {
+      label: i18next.t("docs"),
+      href: "/docs",
+    },
+    {
+      label: i18next.t("pricing"),
+      href: "/pricing",
+    },
+    {
+      label: i18next.t("blog"),
+      href: "/blog",
+    },
+    {
+      label: i18next.t("about"),
+      href: "/about",
+    },
+    // Add the new page to desktop navigation
+    {
+      label: i18next.t("contact"),
+      href: "/contact",
+    },
+  ],
+  navMenuItems: [
+    {
+      label: i18next.t("profile"),
+      href: "/profile",
+    },
+    // ... other mobile menu items
+    
+    // Add the new page to mobile menu (before logout)
+    {
+      label: i18next.t("contact"),
+      href: "/contact",
+    },
+    {
+      label: i18next.t("logout"),
+      href: "/logout",
+    },
+  ],
+  // ... rest of config
+});
+```
+
+### 5. Test Your New Page
+
+Start your development server and verify that:
+
+- The new page is accessible via its route (e.g., <http://localhost:5173/contact>)
+- The page appears in both desktop and mobile navigation menus
+- The page title is correctly translated based on the selected language
+
+That's it! You've successfully added a new page with the default layout and included it in the navigation menus.
+
 ## Internationalization
 
 This template uses i18next for internationalization. The configuration and available languages are defined in the `src/i18n.ts` file.
 
 ### Adding a New Language
 
-To add a new language to the application, follow these steps:
+This template supports multiple languages through i18next. Follow this comprehensive guide to add a new language:
 
-1. **Update the `availableLanguages` array:**
-   - Open the `src/i18n.ts` file.
-   - Add a new object to the `availableLanguages` array with the following properties:
-     - `code`: The ISO 639-1 language code (e.g., "en-US").
-     - `nativeName`: The native name of the language (e.g., "English").
-     - `isRTL`: Whether the language is right-to-left (e.g., `false`).
+#### Step 1: Determine the Language Code
 
-2. **Create a Translation File:**
-   - In the `src/locales/base` directory, create a new JSON file named with the language code (e.g., `en-US.json`).
-   - Add the translations for the new language in this file.
+Choose the appropriate language code using the ISO format:
 
-3. **Update the Load Path:**
-   - In the `src/i18n.ts` file, manually add a switch case to the `loadPath` function to handle the new JSON file for the added language.
+- For region-specific language: use language-REGION format (e.g., `fr-FR`, `en-US`, `pt-BR`)
+- For right-to-left languages (Arabic, Hebrew, etc.), make sure to set `isRTL: true`
+
+#### Step 2: Update the Available Languages Array
+
+Open `src/i18n.ts` and add your new language to the `availableLanguages` array:
+
+```typescript
+export const availableLanguages: AvailableLanguage[] = [
+  { code: "en-US", nativeName: "English", isRTL: false, isDefault: true },
+  // Existing languages...
+  { code: "pt-BR", nativeName: "Português do Brasil", isRTL: false }, // Add your new language
+];
+```
+
+#### Step 3: Create the Translation File
+
+1. Copy an existing translation file as a starting point:
+
+```bash
+# In your project root
+cp src/locales/base/en-US.json src/locales/base/pt-BR.json
+```
+
+2. Translate all values (right side) in the new file while keeping the keys (left side) unchanged:
+
+```json
+{
+  "search": "Pesquisar",
+  "twitter": "Twitter",
+  "discord": "Discord",
+  // ... translate all other entries
+}
+```
+
+#### Step 4: Update the Load Path Function
+
+In `src/i18n.ts`, add a case for your new language in the `loadPath` function:
+
+```typescript
+backend: {
+  loadPath: (lng, ns) => {
+    let url: URL = new URL("./locales/base/en-US.json", import.meta.url);
+    
+    switch (ns[0]) {
+      case "base":
+        switch (lng[0]) {
+          case "en-US":
+            url = new URL("./locales/base/en-US.json", import.meta.url);
+            break;
+          // ... existing languages
+          case "pt-BR": // Add your new language case
+            url = new URL("./locales/base/pt-BR.json", import.meta.url);
+            break;
+          default:
+            url = new URL("./locales/base/en-US.json", import.meta.url);
+        }
+        break;
+      default:
+        url = new URL("./locales/base/en-US.json", import.meta.url);
+    }
+    
+    return url.toString();
+  },
+}
+```
+
+#### Step 5: Special Considerations
+
+**For RTL Languages (Arabic, Hebrew, etc.):**
+
+- Set `isRTL: true` in the language definition
+- Ensure your UI components handle RTL layout properly
+- Test thoroughly as some components may need specific RTL adjustments
+
+**For Languages with Special Characters:**
+
+- Ensure proper UTF-8 encoding in your JSON files
+- Test with the longest translated strings to check for layout issues
+
+**For Chinese, Japanese, Korean:**
+
+- Consider using a shorter display format in the language switcher
+- You might want to customize the language display in `LanguageSwitch` component
+
+#### Step 6: Test Your New Language
+
+1. Start your development server
+2. Switch to the newly added language using the language selector
+3. Verify all text is properly translated
+4. Check that special layouts (like RTL) work correctly
+5. Test on different screen sizes to ensure translations don't break layouts
+
+#### Step 7: Translation Tools (Optional)
+
+To simplify the translation process, consider using:
+
+- [i18n Ally](https://marketplace.visualstudio.com/items?itemName=Lokalise.i18n-ally) VS Code extension
+- Export/import with spreadsheets for collaboration with translators
+- Machine translation services for first drafts (DeepL, Google Translate)
+- Use the included command to extract missing translations from the code
+
+#### Troubleshooting
+
+- **Language not appearing in dropdown**: Check that you've added it to the `availableLanguages` array correctly
+- **Untranslated text**: Ensure all keys from the base language exist in your new translation file
+- **Garbled text**: Verify your JSON file is saved with UTF-8 encoding
+- **Layout issues**: Some translations may be longer and need UI adjustments
 
 ### Language Switch Component
 
@@ -83,7 +325,6 @@ By following the steps above, you can easily add new languages and manage intern
 
 This template includes a cookie consent management system to comply with privacy regulations like GDPR. The system displays a modal dialog asking users for consent to use cookies and stores their preference in the browser's localStorage.
 <img width="944" alt="Capture d’écran 2025-04-11 à 19 55 13" src="https://github.com/user-attachments/assets/8769525c-bef0-4705-9b2e-6664aa68a9e0" />
-
 
 ### Features
 
