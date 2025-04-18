@@ -63,7 +63,7 @@ export default function ContactPage() {
 
 Add the new page's translation key to each language file in the `src/locales/base` directory:
 
-```json
+```jsonc
 // Add to each language JSON file (en-US.json, fr-FR.json, etc.)
 {
   // ... existing translations
@@ -201,7 +201,7 @@ cp src/locales/base/en-US.json src/locales/base/pt-BR.json
 
 2. Translate all values (right side) in the new file while keeping the keys (left side) unchanged:
 
-```json
+```jsonc
 {
   "search": "Pesquisar",
   "twitter": "Twitter",
