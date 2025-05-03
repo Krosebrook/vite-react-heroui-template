@@ -1,5 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import { githubPagesSpa } from "@sctg/vite-plugin-github-pages-spa";
 import tsconfigPaths from "vite-tsconfig-paths";
 import tailwindcss from "@tailwindcss/vite";
 
@@ -64,7 +65,7 @@ export function extractPerVendorDependencies(
  * @see https://vitejs.dev/config/
  */
 export default defineConfig({
-  plugins: [react(), tsconfigPaths(), tailwindcss()],
+  plugins: [react(), tsconfigPaths(), tailwindcss(), githubPagesSpa()],
   build: {
     // Enable source maps for better debugging experience
     // This should be disabled in production for better performance and security
