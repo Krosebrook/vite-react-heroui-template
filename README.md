@@ -8,6 +8,10 @@ This is a template for creating applications using Vite 6 and HeroUI (v2).
 
 **If you appreciate my work, please consider giving it a star! 🤩**
 
+## On Github Pages ?
+
+Ths plugin uses our [@sctg/vite-plugin-github-pages-spa](https://github.com/sctg-development/vite-plugin-github-pages-spa) Vite 6 plugin for handling the Github Pages limitations with SPA.  
+
 ## With OAuth2 authentication ?
 
 If you are looking for a template with OAuth2 authentication, you can check out my other repository: [vite-react-heroui-auth0-template](https://github.com/sctg-development/vite-react-heroui-auth0-template)
